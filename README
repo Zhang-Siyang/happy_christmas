@@ -1,0 +1,24 @@
+```
+#!/bin/sh
+set -ex
+mkdir test_git
+cd test_git
+git init
+git commit --allow-empty -m "Initial commit"
+git checkout -b dev
+gdate --iso-8601=ns > new_file.txt
+git add --all
+git commit -a -m "add new_file"
+git checkout master
+git cherry-pick dev
+git checkout dev
+gdate --iso-8601=ns > another_file.txt
+git add --all
+git commit -m "add another_file"
+git checkout -
+git merge dev --no-ff --message="Merge from dev"
+git status
+git log --graph | cat
+cd ..
+rm -rf test_git
+```
